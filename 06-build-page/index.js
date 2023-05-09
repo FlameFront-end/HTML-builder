@@ -52,9 +52,6 @@ const copyFile = (srcPath, destPath) => {
   const writeStream = fs.createWriteStream(destPath);
   readStream.on("error", (err) => console.error(err));
   writeStream.on("error", (err) => console.error(err));
-  writeStream.on("close", () =>
-    console.log(`Копирование файла ${srcPath} завершено`)
-  );
   readStream.pipe(writeStream);
 };
 if (fs.existsSync(assetsPath)) {
