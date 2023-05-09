@@ -66,4 +66,4 @@ if (fs.existsSync(assetsPath)) {
     }
   }
 }
-console.log("Успешное выполнение!");
+console.log("Успешное выполнение!")
