@@ -69,3 +69,4 @@ if (fs.existsSync(assetsPath)) {
     }
   }
 }
+console.log("Успешное выполнение!");
