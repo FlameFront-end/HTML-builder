@@ -4,7 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c394f21a-9ce9-4687-ae7c-12c2c6dfdffe" name="Changes" comment="" />
+    <list default="true" id="c394f21a-9ce9-4687-ae7c-12c2c6dfdffe" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/assets/fonts/Karolina-Regular.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/assets/img/footer.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/assets/img/header.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/assets/img/item1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/assets/img/item2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/assets/img/item3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/assets/img/wildlife-logo.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/assets/svg/arrow-left.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/assets/svg/arrow-right.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/assets/svg/facebook.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/assets/svg/instagram.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/assets/svg/logo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/assets/svg/pinterest.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/assets/svg/search.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/assets/svg/telegram.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/06-build-page/project-dist/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/06-build-page/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/06-build-page/index.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,7 +75,7 @@
       <workItem from="1683222275562" duration="1509000" />
       <workItem from="1683575201756" duration="5573000" />
       <workItem from="1683618332916" duration="2742000" />
-      <workItem from="1683630092192" duration="3052000" />
+      <workItem from="1683630092192" duration="4016000" />
     </task>
     <task id="LOCAL-00001" summary="feat: add solution first task">
       <created>1683222591686</created>
