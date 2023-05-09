@@ -47,6 +47,25 @@ fs.writeFileSync(stylePath, styleContent);
 // Копируем папку assets в project-dist/assets
 const assetsPath = path.join(__dirname, "assets");
 const distAssetsPath = path.join(distPath, "assets");
+
+if (fs.existsSync(assetsPath)) {
+  fs.mkdirSync(distAssetsPath, { recursive: true });
+  fs.readdirSync(assetsPath).forEach((file) => {
+    const srcPath = path.join(assetsPath, file);
+    const destPath = path.join(distAssetsPath, file);
+    const stats = fs.statSync(srcPath);
+    if (stats.isFile() && path.extname(srcPath) !== ".html") {
+      fs.copyFileSync(srcPath, destPath);
+    } else if (stats.isDirectory()) {
+      fs.mkdirSync(destPath, { recursive: true });
+      fs.readdirSync(srcPath).forEach((subfile) => {
+        const subsrcPath = path.join(srcPath, subfile);
+        const subdestPath = path.join(destPath, subfile);
+        fs.copyFileSync(subsrcPath, subdestPath);
+      });
+    }
+  });
+}
 const copyFile = (srcPath, destPath) => {
   const readStream = fs.createReadStream(srcPath);
   const writeStream = fs.createWriteStream(destPath);
@@ -66,4 +85,5 @@ if (fs.existsSync(assetsPath)) {
     }
   }
 }
-console.log("Успешное выполнение!")
+
+console.log("Successful completion!");
