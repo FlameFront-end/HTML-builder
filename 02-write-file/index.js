@@ -6,7 +6,7 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-const fileStream = fs.createWriteStream('input.txt', { flags: 'a' });
+const fileStream = fs.createWriteStream('./02-write-file/input.txt', { flags: 'a' });
 
 console.log('Введите текст, который хотите, чтобы записался в input.txt (нажмите Ctrl+C или введите "exit" для выхода):');
 
@@ -21,6 +21,5 @@ rl.on('line', (input) => {
 });
 
 rl.on('close', () => {
-  console.log('До свидания!');
   fileStream.end();
 });

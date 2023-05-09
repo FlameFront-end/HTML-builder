@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const STYLES_DIR = './styles';
-const bundlePath = './project-dist/bundle.css';
+const STYLES_DIR = './05-merge-styles/styles';
+const bundlePath = './05-merge-styles/project-dist/bundle.css';
 
 fs.readdir(STYLES_DIR, (err, files) => {
   if (err) {
