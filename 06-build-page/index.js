@@ -1,76 +1,71 @@
-const fs = require('fs/promises');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-// функция для чтения файла и возврата его содержимого
-async function readFile(filePath) {
-  return await fs.readFile(filePath, 'utf-8');
+// Создаем папку project-dist
+const distPath = path.join(__dirname, "project-dist");
+if (!fs.existsSync(distPath)) {
+  fs.mkdirSync(distPath);
 }
 
-// функция для замены тегов на содержимое компонентов
-async function replaceTagsWithComponents(template, componentsDir) {
-  const tags = template.match(/{{.+?}}/g);
-  for (const tag of tags) {
-    const componentName = tag.slice(2, -2); // удаляем фигурные скобки
-    const componentFilePath = path.join(componentsDir, `${componentName}.html`);
-    const componentContent = await readFile(componentFilePath);
-    template = template.replace(tag, componentContent);
-  }
-  return template;
-}
+// Считываем содержимое шаблона и компонентов
+const templatePath = path.join(__dirname, "template.html");
+const templateContent = fs.readFileSync(templatePath, "utf-8");
+const componentsPath = path.join(__dirname, "components");
+const componentFiles = fs.readdirSync(componentsPath);
 
-// функция для сборки стилей в единый файл
-async function combineStyles(stylesDir, outputFile) {
-  const files = await fs.readdir(stylesDir);
-  const cssFiles = files.filter(file => path.extname(file) === '.css');
-  const content = await Promise.all(
-      cssFiles.map(file => readFile(path.join(stylesDir, file)))
+// Заменяем шаблонные теги в файле template.html на содержимое компонентов
+let result = templateContent;
+for (const file of componentFiles) {
+  const componentName = path.parse(file).name;
+  const componentPath = path.join(componentsPath, file);
+  const componentContent = fs.readFileSync(componentPath, "utf-8");
+  result = result.replace(
+    new RegExp(`{{${componentName}}}`, "g"),
+    componentContent
   );
-  await fs.writeFile(outputFile, content.join('\n'));
 }
 
-// основная функция для выполнения задачи
-async function buildPage() {
-  const componentsDir = path.join(__dirname, 'components');
-  const stylesDir = path.join(__dirname, 'styles');
-  const assetsDir = path.join(__dirname, 'assets');
-  const templateFilePath = path.join(__dirname, 'template.html');
-  const outputDir = path.join(__dirname, 'project-dist');
-  const outputFilePath = path.join(outputDir, 'index.html');
-  const stylesOutputFile = path.join(outputDir, 'style.css');
+// Сохраняем результат в файл index.html в папке project-dist
+const indexPath = path.join(distPath, "index.html");
+fs.writeFileSync(indexPath, result);
 
-  // создаем выходную папку
-  await fs.mkdir(outputDir);
+// Собираем стили из папки styles и помещаем их в файл style.css
+const stylesPath = path.join(__dirname, "styles");
+const styleFiles = fs.readdirSync(stylesPath);
+let styleContent = "";
+for (const file of styleFiles) {
+  const extname = path.extname(file);
+  if (extname === ".css") {
+    const stylePath = path.join(stylesPath, file);
+    const style = fs.readFileSync(stylePath, "utf-8");
+    styleContent += style;
+  }
+}
+const stylePath = path.join(distPath, "style.css");
+fs.writeFileSync(stylePath, styleContent);
 
-  // читаем и заменяем содержимое тегов в шаблоне
-  let template = await readFile(templateFilePath);
-  template = await replaceTagsWithComponents(template, componentsDir);
-
-  // сохраняем результат в выходной файл
-  await fs.writeFile(outputFilePath, template);
-
-  // собираем стили в единый файл
-  await combineStyles(stylesDir, stylesOutputFile);
-
-  // копируем папку assets
-  const assetsOutputDir = path.join(outputDir, 'assets');
-  await fs.mkdir(assetsOutputDir);
-  const files = await fs.readdir(assetsDir);
-  for (const file of files) {
-    const srcPath = path.join(assetsDir, file);
-    const destPath = path.join(assetsOutputDir, file);
-    const srcStats = await fs.stat(srcPath);
-    if (srcStats.isDirectory()) {
-      await fs.mkdir(destPath);
-      const subFiles = await fs.readdir(srcPath);
-      for (const subFile of subFiles) {
-        const subSrcPath = path.join(srcPath, subFile);
-        const subDestPath = path.join(destPath, subFile);
-        await fs.copyFile(subSrcPath, subDestPath);
-      }
-    } else {
-      await fs.copyFile(srcPath, destPath);
+// Копируем папку assets в project-dist/assets
+const assetsPath = path.join(__dirname, "assets");
+const distAssetsPath = path.join(distPath, "assets");
+const copyFile = (srcPath, destPath) => {
+  const readStream = fs.createReadStream(srcPath);
+  const writeStream = fs.createWriteStream(destPath);
+  readStream.on("error", (err) => console.error(err));
+  writeStream.on("error", (err) => console.error(err));
+  writeStream.on("close", () =>
+    console.log(`Копирование файла ${srcPath} завершено`)
+  );
+  readStream.pipe(writeStream);
+};
+if (fs.existsSync(assetsPath)) {
+  fs.mkdirSync(distAssetsPath, { recursive: true });
+  const assetFiles = fs.readdirSync(assetsPath);
+  for (const file of assetFiles) {
+    const srcPath = path.join(assetsPath, file);
+    const destPath = path.join(distAssetsPath, file);
+    const stats = fs.statSync(srcPath);
+    if (stats.isFile() && path.extname(srcPath) !== ".html") {
+      copyFile(srcPath, destPath);
     }
   }
 }
-
-buildPage();
