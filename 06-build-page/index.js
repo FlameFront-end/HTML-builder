@@ -86,4 +86,4 @@ if (fs.existsSync(assetsPath)) {
   }
 }
 
-console.log("Successful completion!")
+console.log("Successful completion!");
